@@ -6,14 +6,14 @@ $.extend(demo, {
     console.log(data);
   },
 
-  setUp: function(email) {
+  setUp: function(baseUrl, email) {
     navigator.id.watch({
       loggedInUser: email ? email : null,
 
       onlogin: function(assertion) {
         $.ajax({
           type: "POST",
-          url: "/auth/login",
+          url: baseUrl + "/auth/login",
           data: {assertion: assertion},
           success: function(response, status, xhr) {
             if (response.error) {
@@ -33,7 +33,7 @@ $.extend(demo, {
       onlogout: function() {
         $.ajax({
           type: "POST",
-          url: "/auth/logout",
+          url: baseUrl + "/auth/logout",
 
           success: function(response, status, xhr) {
             if (response.error) {

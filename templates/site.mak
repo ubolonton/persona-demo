@@ -1,3 +1,5 @@
+<%! from util import with_base as b %>
+
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -14,11 +16,11 @@
     <%include file="/standard/includes.mak" />
     <%include file="/jqgrid/includes.mak" />
 
-    <link rel="stylesheet" href="/css/site.css" type="text/css"></link>
-    <link rel="stylesheet" href="/_warp/warp.css" type="text/css"></link>
+    <link rel="stylesheet" href="${'/css/site.css' | b}" type="text/css"></link>
+    <link rel="stylesheet" href="${'/_warp/warp.css' | b}" type="text/css"></link>
 
     <script type="text/javascript" src="https://login.persona.org/include.js"></script>
-    <script type="text/javascript" src="/js/persona.js"></script>
+    <script type="text/javascript" src="${'/js/persona.js' | b}"></script>
   </head>
 
   <body>
@@ -28,15 +30,13 @@
      <div class="topbar">
        <span class="login">
 % if request.avatar:
-  <form method="POST" action="/__logout__">
-    Logged in as <strong>${request.avatar.email}</strong>
-  </form>
+  Logged in as <strong>${request.avatar.email}</strong>
   <button id="persona-logout">Log Out</button>
   <script type="text/javascript">
-    demo.setUp("${request.avatar.email}");
+    demo.setUp("${'' | b}", "${request.avatar.email}");
   </script>
 % else:
-  <form method="POST" action="/__login__" style="display:none">
+  <form method="POST" action="${'/__login__' | b}" style="display:none">
     <input type="text" name="email" value="Username" class="warp-autoclear" />
     <input type="password" name="password" value="Password" class="warp-autoclear" />
     <input type="submit" value="Log in" />
@@ -44,7 +44,7 @@
 
   <button id="persona-login">Log In</button>
   <script type="text/javascript">
-    demo.setUp();
+    demo.setUp("${'' |b }");
   </script>
 % endif
       </span>
