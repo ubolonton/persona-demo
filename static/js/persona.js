@@ -17,6 +17,7 @@ $.extend(demo, {
           data: {assertion: assertion},
           success: function(response, status, xhr) {
             demo.log("Login ok", response);
+            window.location.reload();
           },
           error: function(xhr, status, err) {
             navigator.id.logout();
@@ -32,6 +33,7 @@ $.extend(demo, {
 
           success: function(response, status, xhr) {
             demo.log("Logout ok", response);
+            window.location.reload();
           },
 
           error: function(xhr, status, err) {
@@ -41,4 +43,14 @@ $.extend(demo, {
       }
     });
   }
+});
+
+$(function() {
+  $("button#persona-login").click(function() {
+    navigator.id.request();
+  });
+
+  $("button#persona-logout").click(function() {
+    navigator.id.logout();
+  });
 });

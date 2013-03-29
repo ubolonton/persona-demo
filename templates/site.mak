@@ -11,8 +11,8 @@
 
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"></link>
 
-<%include file="/standard/includes.mak" />
-<%include file="/jqgrid/includes.mak" />
+    <%include file="/standard/includes.mak" />
+    <%include file="/jqgrid/includes.mak" />
 
     <link rel="stylesheet" href="/css/site.css" type="text/css"></link>
     <link rel="stylesheet" href="/_warp/warp.css" type="text/css"></link>
@@ -30,13 +30,19 @@
 % if request.avatar:
   <form method="POST" action="/__logout__">
     Logged in as <strong>${request.avatar.email}</strong>
-    <input type="submit" value = "Log Out" />
   </form>
+  <button id="persona-logout">Log Out</button>
   <script type="text/javascript">
     demo.setUp("${request.avatar.email}");
   </script>
 % else:
-  <button id="persona-login"></button>
+  <form method="POST" action="/__login__">
+    <input type="text" name="email" value="Username" class="warp-autoclear" />
+    <input type="password" name="password" value="Password" class="warp-autoclear" />
+    <input type="submit" value="Log in" />
+  </form>
+
+  <button id="persona-login">Persona</button>
   <script type="text/javascript">
     demo.setUp();
   </script>
