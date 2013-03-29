@@ -3,6 +3,9 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
+    <!-- For persona -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Warp Skeleton</title>
 
@@ -14,6 +17,8 @@
     <link rel="stylesheet" href="/css/site.css" type="text/css"></link>
     <link rel="stylesheet" href="/_warp/warp.css" type="text/css"></link>
 
+    <script type="text/javascript" src="https://login.persona.org/include.js"></script>
+    <script type="text/javascript" src="/js/persona.js"></script>
   </head>
 
   <body>
@@ -27,12 +32,14 @@
     Logged in as <strong>${request.avatar.email}</strong>
     <input type="submit" value = "Log Out" />
   </form>
+  <script type="text/javascript">
+    demo.setUp("${request.avatar.email}");
+  </script>
 % else:
-<form method="POST" action="/__login__">
-  <input type="text" name="email" value="Username" class="warp-autoclear" />
-  <input type="password" name="password" value="Password" class="warp-autoclear" />
-  <input type="submit" value="Log in" />
-</form>
+  <button id="persona-login"></button>
+  <script type="text/javascript">
+    demo.setUp();
+  </script>
 % endif
       </span>
 
@@ -84,7 +91,7 @@ for (label, nodeName, linkFacet) in (
 
   </div>
 
-  <div class="content-wrapper">  
+  <div class="content-wrapper">
     <%def name="breadCrumbs()"><% return [] %></%def>
     <% crumbs = self.breadCrumbs() %>
     % if crumbs:
@@ -100,7 +107,7 @@ for (label, nodeName, linkFacet) in (
       </div>
     % endif
 
-    % for message, args, kwargs in request.session.getFlashMessages(): 
+    % for message, args, kwargs in request.session.getFlashMessages():
       <div class="warp-message">
         ${t(message, *args, **kwargs)}
       </div>
