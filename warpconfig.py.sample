@@ -1,0 +1,19 @@
+# -*- mode: python -*-
+from warp.common import access as a
+from warp.helpers import getNode
+
+config = {
+    'domain': 'persona.local',
+    'port': 8081,
+    'db': "postgres://persona:persona@localhost:5433/persona",
+    'trace': False,
+    'default': 'home',
+    "defaultRoles": ("anon",),
+
+    "roles": {
+        "anon": a.Role({
+               getNode("home"): (a.Allow(),),
+            }),
+        "admin": a.Role({}, default=(a.Allow(),)),
+    },
+}
