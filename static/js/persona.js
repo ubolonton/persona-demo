@@ -16,8 +16,12 @@ $.extend(demo, {
           url: "/auth/login",
           data: {assertion: assertion},
           success: function(response, status, xhr) {
-            demo.log("Login ok", response);
-            window.location.reload();
+            if (response.error) {
+              alert(response.error);
+            } else {
+              demo.log("Login ok", response);
+              window.location.reload();
+            }
           },
           error: function(xhr, status, err) {
             navigator.id.logout();
@@ -32,8 +36,12 @@ $.extend(demo, {
           url: "/auth/logout",
 
           success: function(response, status, xhr) {
-            demo.log("Logout ok", response);
-            window.location.reload();
+            if (response.error) {
+              alert(response.error);
+            } else {
+              demo.log("Logout ok", response);
+              window.location.reload();
+            }
           },
 
           error: function(xhr, status, err) {

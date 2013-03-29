@@ -20,19 +20,19 @@ def get(request, name, default = None):
 def JSON(handler):
     def wrapped(request):
         data = handler(request)
-        return json.dumps(data)
+        raw = json.dumps(data)
+        request.setHeader("content-type", "application/json")
+        request.setHeader("content-length", str(len(raw)))
+        return raw
     return wrapped
 
 def ok(result, request):
-    # store = request.store
+    print >>config["log"], "Ok ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     data = json.loads(result)
 
-    print >>config["log"], "Result ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     print >>config["log"], result
     if data.get("status") == "okay":
         email = uni(data.get("email"))
-
-        # raise Exception("In progress")
 
         avatar = avatar_store.find(Avatar, email = email).one()
         if not avatar:
@@ -47,26 +47,15 @@ def ok(result, request):
             "success": True,
             "data": data
         }
-        # request.write(json.dumps({
-        #     "success": True,
-        #     "data": data
-        # }))
-        # request.finish()
     else:
         raise Exception("Login failed")
 
 def error(failure, request):
     print >>config["log"], "Error ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     print >>config["log"], failure
-    # request.write(json.dumps({
-    #     "success": False,
-    #     "error": failure
-    # }))
-    # request.finish()
-    # print >>config["log"], "Error done"
     return {
         "success": False,
-        "error": failure
+        "error": failure.getErrorMessage()
     }
 
 def done(final, request):
@@ -93,13 +82,12 @@ def render_login(request):
     }
 
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    # print data
 
     d = getPage("https://verifier.login.persona.org/verify", method = "POST",
                 headers = headers, postdata = json.dumps(data))
     d.addCallback(ok, request)
     d.addErrback(error, request)
-    d.addBoth(done, request)
+    d.addCallback(done, request)
 
     print "Requesting"
 

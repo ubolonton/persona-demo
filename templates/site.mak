@@ -36,13 +36,13 @@
     demo.setUp("${request.avatar.email}");
   </script>
 % else:
-  <form method="POST" action="/__login__">
+  <form method="POST" action="/__login__" style="display:none">
     <input type="text" name="email" value="Username" class="warp-autoclear" />
     <input type="password" name="password" value="Password" class="warp-autoclear" />
     <input type="submit" value="Log in" />
   </form>
 
-  <button id="persona-login">Persona</button>
+  <button id="persona-login">Log In</button>
   <script type="text/javascript">
     demo.setUp();
   </script>
