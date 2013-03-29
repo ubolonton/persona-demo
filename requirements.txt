@@ -1,5 +1,7 @@
+pyopenssl
 python-dateutil
 psycopg2
 pyyaml
 -e git+https://github.com/ubolonton/warp.git@cb27672ec7a9f7e7033fca0b4082c333b67020c5#egg=warp
 -e git+https://github.com/ubolonton/schemup.git@e691d36#egg=schemup
+# requests
